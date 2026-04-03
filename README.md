@@ -5,7 +5,7 @@
 - 目标是指导游戏研发
 
 ## 如何使用
-1. 对话中引用Init.md
+1. 对话中引用Init.md, 远程地址:https://github.com/jackutea/TheDistillationMe/blob/main/Init.md
 2. "执行一次Init"
 3. 使用main.agent进行工作
 

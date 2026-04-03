@@ -23,6 +23,7 @@ user-invocable: true
 在开始生成前，先向用户确认以下三项：
 1. 需要哪些目录作为凭依(不必确认Main.md和Git.md, 因为必须包含), 这一步要给出选项(AI目录下的所有第一级目录)？
 2. 生成位置是 .github 还是 .claude ？
+	- 注: 生成后是放置在用户的工程里, 而且TheDistillationMe工程
 3. 是否还要补充agent(例如build.agent,tests.agent)?
 
 若用户未明确回答，禁止进入生成阶段。

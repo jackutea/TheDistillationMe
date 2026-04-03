@@ -1,4 +1,14 @@
->> 控制与行为
+## 理念
+1. KISS(Keep It Simple and Stupid)
+2. 代码只`定义数据类型`、`读取`和`使用`数据, 代码不`定义数据内容`
+- 通常数据内容的格式:`.prefab`, `.json`, `.csv`, `.asset(SO)`, `.txt`, `.png`, `.fbx`等
+3. `控制逻辑`与`行为逻辑`分离, `控制`指“让谁来”, `行为`指“做什么”
+4. 非单机游戏中, `逻辑处理`与`表现处理`分离
+5. `运行时`与`编辑时`分离
+6. 调用关系单向, 依赖关系单向
+- 低层调用高层时, 只能通过接口或委托, 不能直接引用或调用
+
+## 控制与行为
 1. `Main(主入口)`全局唯一，负责启动引导，创建上下文，进入主循环
 2. `System(系统)`负责系统级编排，调用 Controller. `System`必有一个对应的 `SystemState` 和 `SystemEvents`
 3. `Controller(控制器)`无状态静态类, 负责`控制逻辑`实现. 如果业务不复杂, 就不添加`Domain`.
@@ -13,7 +23,7 @@
 - Render: 如果使用Unity和UE则不需要手动调用, 除非有特殊需求
 - TearDown: 卸载资源、注销事件、销毁上下文
 
->> 上下文
+## 上下文
 1. `Context(唯一上下文)`用于存所有`Repository`, `Module`, 全局唯一的`Entity`
 2. `Repository(实体仓库)`用于存、查实体, 通常以UniqueID为Key, Entity为Value, 提供Add(entity), TryGet(id, out entity), Remove(entity)等接口
 3. `Entity(实体)`, 整个项目都是围绕`读`和`写`Entity来构建的, `Component`是Entity的字段封装

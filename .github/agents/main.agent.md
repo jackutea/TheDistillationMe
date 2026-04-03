@@ -18,7 +18,9 @@ user-invocable: true
 - `AI/Main.md`
 - `AI/Convention.md`
 - `AI/Architecture.md`
+- `AI/Gist.md`
 - `AI/Milestone.md`
+- `AI/Unity/Git.md`
 - `AI/Unity/Modules/`
 
 ## 约束

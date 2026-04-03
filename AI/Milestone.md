@@ -7,9 +7,20 @@
 - [x] 创建AI主入口（Main）
 - [x] 蒸馏架构规范（Architecture）
 
-## M2 - Gist.md
+## M2 - Gist.md ✅
 
-- [ ] 创建 Gist.md，蒸馏架构的具体实现
+- [x] 目录结构模板（Launcher / HotReload / Common 分层）
+- [x] 程序集划分（五层职责与边界）
+- [x] Context 模板（字段按类型分组）
+- [x] 主循环模板（Init → ProcessInput → Tick → TearDown）
+- [x] System 模板（静态类 + SystemState + SystemEvents 三件套）
+- [x] Controller 模板（Spawn / Unspawn / Tick 签名规范）
+- [x] Entity + Component 模板（组合式数据容器）
+- [x] Repository 模板（Add / TryGet / Remove + 多索引示例）
+- [x] Module vs Manager 对比（边界说明）
+- [x] Events 模板（Action-based pubsub 框架）
+- [x] SO 模板（配置模板与 Entity 关系）
+- [x] EM 模板（编辑器工具类）
 
 ## M3 - Workflow.md
 

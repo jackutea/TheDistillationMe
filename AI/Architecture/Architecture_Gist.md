@@ -169,7 +169,7 @@ public class {F}SystemState {
     // 其他系统级临时状态（不属于 Entity 的数据）
 }
 
-public enum {F}Phase { Idle, Playing, Pausing, Over }
+public enum {F}Phase { None, Idle, Playing, Pausing, Over }
 
 // {F}SystemEvents.cs — 有状态，Action-based 事件总线
 public class {F}SystemEvents {

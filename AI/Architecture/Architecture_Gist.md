@@ -40,7 +40,7 @@ Assets/
 | 程序集 | 职责 | 依赖方向 |
 |---|---|---|
 | **Launcher** | AOT引导；下载并执行热更DLL；初始化Addressables目录 | → Common |
-| **HotReload** | 核心游戏逻辑；所有System/Controller/Domain/Manager/Module | → Common |
+| **HotReload** | 核心游戏逻辑；所有System/Controller/Controller/Manager/Module | → Common |
 | **Common** | 枚举、常量、接口、工具函数；不含业务逻辑 | — |
 | **Editor** | 编辑器工具；仅在`UNITY_EDITOR`下编译 | → Common |
 | **Tests** | 单元测试与集成测试 | → Common, HotReload |
@@ -208,13 +208,13 @@ public static class {Entity}Controller {
 
     /// <summary>每帧更新</summary>
     public static void Tick(GameContext ctx, {Entity}Entity entity, float dt) {
-        // 驱动 Domain 或直接修改 entity 字段
-        {Entity}Domain.Move(ctx, entity, dt);
+        // 驱动 Controller 或直接修改 entity 字段
+        {Entity}Controller.Move(ctx, entity, dt);
     }
 }
 ```
 
-> Controller 只做**控制**（"让谁来"）。行为算法细节（"做什么"）：简单时直接在 Controller 内新增函数处理；复杂时才抽出 Domain 承载。
+> Controller 只做**控制**（"让谁来"）。行为算法细节（"做什么"）：简单时直接在 Controller 内新增函数处理；复杂时才抽出 Controller 承载。
 
 ---
 
@@ -292,11 +292,11 @@ Entity 创建 + 字段从 SO 赋值 + 存入 Repository
 EM（Editor Model）是编辑器工具类，职责是以对人友好的方式编辑 SO，仅在编辑时运行，不参与 Runtime 构建。
 
 ```csharp
-// {Domain}EM.cs — Editor Model（位于 Src_Editor/，不进入 Runtime 构建）
+// {Controller}EM.cs — Editor Model（位于 Src_Editor/，不进入 Runtime 构建）
 [ExecuteInEditMode]
-public class {Domain}EM : MonoBehaviour {
+public class {Controller}EM : MonoBehaviour {
 
-    [SerializeField] {Domain}SO so;   // 目标 SO
+    [SerializeField] {Controller}SO so;   // 目标 SO
 
     // 用 SO 直接引用替代抽象的 TypeID，方便编辑器拖拽赋值
     public {Other}SO reference;

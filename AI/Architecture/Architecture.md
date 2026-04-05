@@ -15,9 +15,9 @@ flowchart TB
     Main["Main<br/>主入口"]
     System["System<br/>系统编排"]
     Controller["Controller<br/>控制逻辑"]
-    Domain["Domain<br/>行为逻辑"]
+    Controller["Controller<br/>行为逻辑"]
 
-    Main --> System --> Controller --> Domain
+    Main --> System --> Controller --> Controller
 
     subgraph Context["Context（唯一上下文）"]
         direction LR
@@ -27,14 +27,14 @@ flowchart TB
     end
 
     Controller --> Context
-    Domain --> Context
+    Controller --> Context
 ```
 
 ## 控制与行为
 - **Main**：全局唯一主入口，启动引导、创建上下文、进入主循环
 - **System**：系统级编排，调用Controller；必有对应`SystemState`和`SystemEvents`
 - **Controller**：无状态静态类，负责控制逻辑（Spawn/Unspawn/Tick）
-- **Domain**：无状态静态类，负责行为逻辑，只处理单一类型Entity；业务不复杂时可省略
+- **Controller**：无状态静态类，负责行为逻辑，只处理单一类型Entity；业务不复杂时可省略
 
 ### 主循环
 `Init` -> `ProcessInput` -> `Tick` -> `Render` -> `TearDown`

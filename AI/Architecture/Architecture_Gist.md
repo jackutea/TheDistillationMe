@@ -218,6 +218,121 @@ public static class {Entity}Controller {
 
 ---
 
+## 签名类型（Signature）
+
+位于 `Common/` 层，是跨程序集共享的标识类型。
+
+### EntityType
+
+```csharp
+// EntityType.cs — 枚举，标识实体大类
+public enum EntityType {
+    None = 0,
+    // 按业务扩展，每类间隔 100 方便插入
+    // {EntityA} = 1,
+    // {EntityB} = 100,
+}
+```
+
+### UniqueID
+
+使用 `StructLayout(Explicit)` 将 `ulong` 拆为 `EntityType`（高 4 字节）+ `entityID`（低 4 字节），一次比较即可判等。
+
+```csharp
+// UniqueID.cs — 实例唯一标识，每个 Entity 实例不重复
+[Serializable]
+[StructLayout(LayoutKind.Explicit)]
+public struct UniqueID : IEquatable<UniqueID>, IComparable<UniqueID> {
+
+    public static UniqueID Invalid => new UniqueID(0);
+
+    [FieldOffset(0)]
+    public ulong value;        // 整体值，用于快速比较与哈希
+
+    [FieldOffset(4)]
+    public EntityType entityType;  // 高 4 字节：实体大类
+
+    [FieldOffset(0)]
+    public int entityID;           // 低 4 字节：自增序号
+
+    public UniqueID(ulong value) {
+        this = default;
+        this.value = value;
+    }
+
+    public UniqueID(EntityType entityType, int entityID) {
+        this = default;
+        this.entityType = entityType;
+        this.entityID = entityID;
+    }
+
+    bool IEquatable<UniqueID>.Equals(UniqueID other) => value == other.value;
+    int IComparable<UniqueID>.CompareTo(UniqueID other) => value.CompareTo(other.value);
+    public static bool operator ==(UniqueID left, UniqueID right) => left.value == right.value;
+    public static bool operator !=(UniqueID left, UniqueID right) => left.value != right.value;
+    public override string ToString() => $"{entityType}-{entityID}";
+}
+```
+
+**规则**
+- 位于 `Common/` 程序集，不含业务逻辑
+- Entity 必有 `UniqueID uniqueID` 字段
+- IDService 负责分配，保证运行时不重复
+- Repository 以 `uniqueID` 为 Key
+
+### TypeID
+
+使用 `StructLayout(Explicit)` 将 `ulong` 拆为三级版本号：`typeMajor`（高 2 字节）+ `typeMinor`（中 4 字节）+ `typePatch`（低 2 字节），同类 Entity 共享相同 TypeID。
+
+```csharp
+// TypeID.cs — 类型标识，同类 Entity 共享
+[Serializable]
+[StructLayout(LayoutKind.Explicit)]
+public struct TypeID : IEquatable<TypeID>, IComparable<TypeID> {
+
+    public static TypeID Invalid = new TypeID(0);
+
+    [FieldOffset(0)]
+    [NonSerialized]
+    public ulong value;        // 整体值，用于快速比较
+
+    [FieldOffset(6)]
+    public ushort typeMajor;   // 高 2 字节：大类
+
+    [FieldOffset(2)]
+    public uint typeMinor;     // 中 4 字节：子类
+
+    [FieldOffset(0)]
+    public ushort typePatch;   // 低 2 字节：变体
+
+    public TypeID(ulong value) {
+        this = default;
+        this.value = value;
+    }
+
+    public TypeID(ushort typeMajor, uint typeMinor, ushort typePatch) {
+        this = default;
+        this.typeMajor = typeMajor;
+        this.typeMinor = typeMinor;
+        this.typePatch = typePatch;
+    }
+
+    bool IEquatable<TypeID>.Equals(TypeID other) => value == other.value;
+    int IComparable<TypeID>.CompareTo(TypeID other) => value.CompareTo(other.value);
+    public static bool operator ==(TypeID left, TypeID right) => left.value == right.value;
+    public static bool operator !=(TypeID left, TypeID right) => left.value != right.value;
+    public override string ToString() => $"{typeMajor}-{typeMinor}-{typePatch}";
+}
+```
+
+**规则**
+- 位于 `Common/` 程序集，不含业务逻辑
+- Entity 必有 `TypeID typeID` 字段，同类实例值相同
+- SO 持有 `TypeID typeID`，Spawn 时赋值给 Entity
+- `value` 标记 `[NonSerialized]`，序列化时只存三个分量
+
+---
+
 ## Entity + Component 模板
 
 ```csharp

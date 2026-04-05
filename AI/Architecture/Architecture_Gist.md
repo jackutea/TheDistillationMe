@@ -73,7 +73,13 @@ public class GameContext {
     // ⚠ Repository 放在 Context，不放在 SystemState
     public {Entity}Repository   {entity}Repository;
 
+    // ── Service（业务服务实例） ───────────────────────────────────
+    // ⚠ Service 放在 Context，不放在 SystemState
+    public IDService            idService;
+    public PoolService          poolService;
+
     // ── Entity（全局唯一实体） ────────────────────────────────────
+    // ⚠ Entity 放在 Context，不放在 SystemState
     public {Entity}Entity       {entity}Entity;
 }
 ```
@@ -157,7 +163,7 @@ public static class {F}System {
 }
 
 // {F}SystemState.cs — 有状态，存储系统级 FSM 状态
-// ⚠ 不放 Repository / Module / Manager 等共享资源，这些归 Context
+// ⚠ 不放 Repository / Service / Entity / Module / Manager 等共享资源，这些归 Context
 public class {F}SystemState {
     public {F}Phase phase;
     // 其他系统级临时状态（不属于 Entity 的数据）

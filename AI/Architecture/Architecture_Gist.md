@@ -70,6 +70,7 @@ public class GameContext {
     public FileManager          fileManager;
 
     // ── Repository（实体仓库） ────────────────────────────────────
+    // ⚠ Repository 放在 Context，不放在 SystemState
     public {Entity}Repository   {entity}Repository;
 
     // ── Entity（全局唯一实体） ────────────────────────────────────
@@ -156,6 +157,7 @@ public static class {F}System {
 }
 
 // {F}SystemState.cs — 有状态，存储系统级 FSM 状态
+// ⚠ 不放 Repository / Module / Manager 等共享资源，这些归 Context
 public class {F}SystemState {
     public {F}Phase phase;
     // 其他系统级临时状态（不属于 Entity 的数据）

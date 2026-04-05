@@ -12,7 +12,7 @@
 name: Main Agent
 description: "Use when handling architecture distillation, convention compliance, milestone planning, Unity module documentation, and overall AI docs maintenance"
 model: Claude Opus 4.6
-tools: [read, search, edit, todo, agent]
+tools: [read, search, edit, execute, todo, agent]
 agents: [Git Agent]
 user-invocable: true
 ---

@@ -2,10 +2,11 @@
 
 ## 目标
 
-1. 基于 AI 目录文档，生成两个代理文件：
+1. 基于 AI 目录文档，按需生成代理文件, 但至少包括：
 	- main.agent.md
 	- git.agent.md
-2. 基于 AI 目录文档, 按需生成代理文件
+	- architecture.agent.md
+	- style.agent.md
 - 注: 生成的agent模板(仅参考, 不必一样):
 ```
 ---
@@ -20,18 +21,16 @@ user-invocable: true
 ```
 
 ## 前置问询（必须先执行）
-在开始生成前，先向用户确认以下三项：
-1. 需要把哪些目录复制进用户工程(不必确认Main.md和Git.md, 因为必须包含), 这一步要给出选项(AI目录下的所有第一级目录)？
-2. 生成位置是 .github/agents 还是 .claude/agents ？
+在开始生成前，先向用户确认以下项：
+1. 生成位置是 .github/agents 还是 .claude/agents ？
 	- 注: 生成后是放置在用户的工程里, 而非TheDistillationMe工程
-3. 是否还要补充agent(例如build.agent,tests.agent)?
+2. 是否还要补充agent(例如build.agent,tests.agent)?
 
 若用户未明确回答，禁止进入生成阶段。
 
 ## 输入
-- 文档输入：用户指定的凭依文档列表
 - 目标目录：.github 或 .claude
-- 代理清单：main / git
+- 代理清单：main / git / architecture / style
 
 ## 处理流程
 1. 收集输入
@@ -39,11 +38,10 @@ user-invocable: true
 - 确认目标目录存在；不存在则先创建。
 
 2. 生成代理
-- 生成 main.agent.md：负责文档体系统筹（架构、公约、里程碑、模块文档）。
-- 生成 git.agent.md：仅处理 Git 任务（提交、分支、合并、日志、冲突）。
+- 每个代理文件需包含：职责描述、使用的模型、工具权限、调用的其他代理、用户可否直接调用。
 
 3. 校验一致性
-- 两个代理的职责边界不重叠。
+- 每个代理的职责边界尽量不重叠。
 - 工具权限与职责匹配（最小工具原则）。
 - 引用路径均可访问。
 
@@ -64,6 +62,6 @@ user-invocable: true
 
 ## 完成定义（DoD）
 - 前置问询已完成并有明确答案。
-- 两个代理文件已生成。
+- 所有代理文件已生成。
 - 文件内容通过职责与路径校验。
 - 已向用户返回结果摘要与可执行下一步。

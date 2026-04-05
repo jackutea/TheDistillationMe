@@ -52,3 +52,17 @@
 - [x] 根目录新增 README.md，说明“仓库是什么”与“如何使用”
 - [x] README.md 补充 .github 目录职责与使用入口说明
 - [x] Init.md 扩展为 AI 可读的结构化初始化规范
+## NJM2-M1 - System 静态化重构 ✅
+
+- [x] 24 个 System 重构为静态类（MainContext 参数注入）
+- [x] 创建 MainContext（统一上下文）
+- [x] 更新 ClientMain（移除实例字段，改用静态调用）
+- [x] 重构 FrogJump MiniGame
+- [x] 编译验证通过（0 错误）
+
+## NJM2-M1.1 - 剩余 System 静态化 ✅
+
+- [x] 重构 5 个 System 为静态类（LangBinding、WorldDialogue、ChapterResult、FullScreenDialogue、HintPopup）
+- [x] 裁剪 5 个 State 文件（移除外部依赖）
+- [x] 更新 ClientMain 调用（移除实例字段 + 静态调用 + 事件绑定）
+- [x] 编译验证通过（0 错误）
